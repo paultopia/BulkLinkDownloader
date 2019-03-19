@@ -1,4 +1,5 @@
 import Cocoa
+import SwiftSoup
 
 let runLoop = CFRunLoopGetCurrent()
 
@@ -6,15 +7,23 @@ print("hello world")
 
 let url = URL(string: "http://paultopia.org")!
 
-// func listLinks(url: URL) -> [URL]? {
-    
-// }
+func listLinks(_ html: String) -> [String] {
+    let doc = try! SwiftSoup.parse(html)
+    let links = try! doc.select("a")
+    let out = links.array().map {try! $0.attr("href")}
+    return out
+}
 
 func myPrint(_ s: String){
     print(s)
 }
 
-let outputTask = myPrint
+func printLinks(_ s: String){
+    let l = listLinks(s)
+    print(l)
+}
+
+let outputTask = printLinks
 
 func operateOnPage(url: URL) {
     let task = URLSession.shared.dataTask(with: url) { data, response, error in
