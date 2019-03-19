@@ -3,6 +3,7 @@ import Cocoa
 public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate{
 
     private var downloadQueue: [URLSessionDownloadTask] = []
+    private var fm = FileManager()
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "MySession")
         config.isDiscretionary = true
@@ -21,12 +22,15 @@ public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownl
 
     public func urlSession(_ u: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo: URL) {
         print("called completion handler")
-        print(didFinishDownloadingTo)
+        let s = try! String(contentsOf: didFinishDownloadingTo)
+        print(s)
     }
 
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("background download threw an error")
-        print(error)
+        if let e = error {
+            print("background download threw an error")
+            print(e)
+        }
     }
 
 }
