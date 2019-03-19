@@ -20,10 +20,10 @@ func myPrint(_ s: String){
 }
 
 func printLinks(_ s: String){
-    let l = listLinks(s)
+    let links = listLinks(s)
     for link in links {
         print(link)
-        bg.addDownloadToQueue(address: l)
+        bg.addDownloadToQueue(address: link)
     }
     bg.runAllDownloads()
 }

@@ -1,12 +1,11 @@
 import Cocoa
 
-public class BackgroundDownloader: URLSessionDelegate, URLSessionDownloadDelegate{
+public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate{
 
-    private var downloadQueue: [URLSession] = []
+    private var downloadQueue: [URLSessionDownloadTask] = []
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "MySession")
         config.isDiscretionary = true
-        config.sessionSendsLaunchEvents = true
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
 
@@ -20,7 +19,7 @@ public class BackgroundDownloader: URLSessionDelegate, URLSessionDownloadDelegat
         downloadQueue.forEach {$0.resume()}
     }
 
-    func urlSession(URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo: URL) {
+    public func urlSession(_ u: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo: URL) {
         print("called completion handler")
     }
 
