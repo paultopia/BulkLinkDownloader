@@ -2,10 +2,11 @@ import Cocoa
 import SwiftSoup
 
 let runLoop = CFRunLoopGetCurrent()
+let bg = BackgroundDownloader()
 
 print("hello world")
 
-let url = URL(string: "http://paultopia.org")!
+let url = URL(string: "http://paultopia.org/downloadtest.html")!
 
 func listLinks(_ html: String) -> [String] {
     let doc = try! SwiftSoup.parse(html)
@@ -20,7 +21,11 @@ func myPrint(_ s: String){
 
 func printLinks(_ s: String){
     let l = listLinks(s)
-    print(l)
+    for link in links {
+        print(link)
+        bg.addDownloadToQueue(address: l)
+    }
+    bg.runAllDownloads()
 }
 
 let outputTask = printLinks
