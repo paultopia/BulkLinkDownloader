@@ -4,8 +4,6 @@ import SwiftSoup
 let runLoop = CFRunLoopGetCurrent()
 let bg = BackgroundDownloader()
 
-print("hello world")
-
 let url = URL(string: "http://paultopia.org/downloadtest.html")!
 
 func listLinks(_ html: String) -> [String] {
@@ -15,13 +13,11 @@ func listLinks(_ html: String) -> [String] {
     return out
 }
 
-func myPrint(_ s: String){
-    print(s)
-}
-
 func printLinks(_ s: String){
     let links = listLinks(s)
-    for link in links {
+    var link: String
+    for l in links {
+        link = "http://paultopia.org/" + l
         print(link)
         bg.addDownloadToQueue(address: link)
     }
@@ -56,4 +52,3 @@ func operateOnPage(url: URL) {
 operateOnPage(url: url)
 
 CFRunLoopRun()
-// RunLoop.main.run()

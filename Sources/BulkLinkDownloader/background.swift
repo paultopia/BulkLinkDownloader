@@ -21,6 +21,12 @@ public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownl
 
     public func urlSession(_ u: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo: URL) {
         print("called completion handler")
+        print(didFinishDownloadingTo)
+    }
+
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        print("background download threw an error")
+        print(error)
     }
 
 }
