@@ -1,7 +1,6 @@
 import Cocoa
 import SwiftSoup
 
-let runLoop = CFRunLoopGetCurrent()
 let bg = BackgroundDownloader()
 
 let url = URL(string: "http://paultopia.org/downloadtest.html")!
@@ -24,31 +23,5 @@ func printLinks(_ s: String){
     bg.runAllDownloads()
 }
 
-let outputTask = printLinks
-
-func operateOnPage(url: URL) {
-    let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        if let error = error {
-            print("TRANSPORT ERRORED")
-            print(error)
-            return
-        }
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            print("SERVER ERRORED")
-            return
-        }
-        if let mimeType = httpResponse.mimeType, mimeType == "text/html",
-           let data = data,
-           let string = String(data: data, encoding: .utf8) {
-            outputTask(string)
-        }
-        print("stopping loop")
-        CFRunLoopStop(runLoop)
-    }
-    task.resume()
-}
-
-operateOnPage(url: url)
-
-CFRunLoopRun()
+let data = try! String(contentsOf: url)
+printLinks(data)
