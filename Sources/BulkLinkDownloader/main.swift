@@ -38,6 +38,9 @@ func scrape_data(from address: String, only: [String]?, with downloader: Downloa
     printLinks(data, origin: address, types: only, downloader: downloader)
 }
 
-let bg = BackgroundDownloader()
+//let bg = BackgroundDownloader()
+
+let pd = ParallelDownloader()
+
 let address = "http://paultopia.org/downloadtest.html"
-scrape_data(from: address, only: ["txt"], with: bg)
+scrape_data(from: address, only: ["txt"], with: pd)
