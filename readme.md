@@ -19,3 +19,5 @@ my hypothesis is that the background download isn't actually re-waking the appli
 and would mean I would need to put the async code I removed back in. maybe.
 
 [commit that removed the async code](https://github.com/paultopia/BulkLinkDownloader/commit/9f3c18ca599b8065ef0f928d80d4b6e9d04fe63e)
+
+oh yeah.  check out [this old SO](https://stackoverflow.com/questions/43299838/nsurlsession-background-configuration-benefits-on-macos) that's totally what's happening.  Do I need to do this background, or can I just change it to a different kind of async that keeps the app open?
