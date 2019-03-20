@@ -1,9 +1,6 @@
 import Cocoa
 import SwiftSoup
 
-let bg = BackgroundDownloader()
-
-let address = "http://paultopia.org/downloadtest.html"
 
 func exten(ofLink link: String, isIn extensList: [String]) -> Bool {
     if let xtn = URL(string: link)?.pathExtension {
@@ -26,20 +23,21 @@ func haveExten(types: [String]?, links: [String]) -> [String] {
     return links
 }
 
-func printLinks(_ s: String, origin: String, types: [String]?){
+func printLinks(_ s: String, origin: String, types: [String]?, downloader: Downloader){
     let links = haveExten(types: types, links: listLinks(s, origin: origin))
     for l in links {
         print(l)
-        bg.addDownloadToQueue(address: l)
+        downloader.addDownloadToQueue(address: l)
     }
-    bg.runAllDownloads()
+    downloader.runAllDownloads()
 }
 
-func scrape_data(from address: String, only: [String]?){
+func scrape_data(from address: String, only: [String]?, with downloader: Downloader){
     let url = URL(string: address)!
     let data = try! String(contentsOf: url)
-    printLinks(data, origin: address, types: only)
+    printLinks(data, origin: address, types: only, downloader: downloader)
 }
 
-
-scrape_data(from: address, only: ["txt"])
+let bg = BackgroundDownloader()
+let address = "http://paultopia.org/downloadtest.html"
+scrape_data(from: address, only: ["txt"], with: bg)

@@ -1,6 +1,6 @@
 import Cocoa
 
-public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate{
+public class BackgroundDownloader: NSObject {
 
     private var downloadQueue: [URLSessionDownloadTask] = []
     private var fm = FileManager()
@@ -10,16 +10,9 @@ public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownl
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
 
-    func addDownloadToQueue(address: String){
-        let url = URL(string: address)!
-        let backgroundTask = urlSession.downloadTask(with: url)
-        downloadQueue.append(backgroundTask)
-    }
+}
 
-    func runAllDownloads(){
-        downloadQueue.forEach {$0.resume()}
-    }
-
+extension BackgroundDownloader: URLSessionDelegate, URLSessionDownloadDelegate {
     public func urlSession(_ u: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo: URL) {
         print("called completion handler")
         let s = try! String(contentsOf: didFinishDownloadingTo)
@@ -32,5 +25,16 @@ public class BackgroundDownloader: NSObject, URLSessionDelegate, URLSessionDownl
             print(e)
         }
     }
+}
 
+extension BackgroundDownloader: Downloader {
+    func addDownloadToQueue(address: String){
+        let url = URL(string: address)!
+        let backgroundTask = urlSession.downloadTask(with: url)
+        downloadQueue.append(backgroundTask)
+    }
+
+    func runAllDownloads(){
+        downloadQueue.forEach {$0.resume()}
+    }
 }
