@@ -6,7 +6,7 @@ public class BackgroundDownloader: NSObject {
     private var fm = FileManager()
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "MySession")
-        config.isDiscretionary = true
+        config.isDiscretionary = false
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
 
