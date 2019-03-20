@@ -19,8 +19,15 @@ func listLinks(_ html: String, origin: String) -> [String] {
     return out
 }
 
-func printLinks(_ s: String, origin: String){
-    let links = listLinks(s, origin: origin)
+func haveExten(types: [String]?, links: [String]) -> [String] {
+    if let extens = types {
+        return links.filter {exten(ofLink: $0, isIn: extens)}
+    }
+    return links
+}
+
+func printLinks(_ s: String, origin: String, types: [String]?){
+    let links = haveExten(types: types, links: listLinks(s, origin: origin))
     for l in links {
         print(l)
         bg.addDownloadToQueue(address: l)
@@ -28,11 +35,11 @@ func printLinks(_ s: String, origin: String){
     bg.runAllDownloads()
 }
 
-func scrape_data(from address: String){
+func scrape_data(from address: String, only: [String]?){
     let url = URL(string: address)!
     let data = try! String(contentsOf: url)
-    printLinks(data, origin: address)
+    printLinks(data, origin: address, types: only)
 }
 
 
-scrape_data(from: address)
+scrape_data(from: address, only: ["txt"])
