@@ -43,4 +43,4 @@ func scrape_data(from address: String, only: [String]?, with downloader: Downloa
 let pd = ParallelDownloader()
 
 let address = "http://paultopia.org/downloadtest.html"
-scrape_data(from: address, only: ["txt"], with: pd)
+scrape_data(from: address, only: ["md"], with: pd)
